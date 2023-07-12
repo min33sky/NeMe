@@ -21,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/button';
+import { Icons } from '../Icons';
 
 type Variant = 'Login' | 'Register';
 
@@ -63,6 +64,7 @@ export default function AuthForm() {
                     <Input
                       type="email"
                       placeholder="you@example.com"
+                      autoFocus
                       {...field}
                     />
                   </FormControl>
@@ -118,6 +120,29 @@ export default function AuthForm() {
             </Button>
           </form>
         </Form>
+
+        {/* 소셜 로그인 버튼 */}
+        <div className={`relative mt-6`}>
+          <div className={`absolute inset-0 flex items-center`}>
+            <div className={`w-full border-t border-gray-300`}></div>
+          </div>
+          <div className={`relative flex justify-center text-sm`}>
+            <span className={`bg-white px-2 text-gray-500`}>
+              다른 방법으로 로그인하기
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <Button variant={'outline'} className="flex items-center text-base">
+            <Icons.google className="w-5 h-5 mr-1" />
+            구글로 로그인
+          </Button>
+          <Button variant={'outline'} className="flex items-center text-base">
+            <Icons.github className="w-5 h-5 mr-1" />
+            깃허브로 로그인
+          </Button>
+        </div>
 
         <footer className="mt-6 flex items-center justify-center gap-1 px-2 text-sm text-gray-500">
           <p>
