@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          throw new Error('로그인 정보가 일치하지 않습니다.');
         }
 
         const user = await prisma.user.findUnique({
@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (!isCorrectPassword) {
-          throw new Error('비밀번호가 일치하지 않습니다.');
+          throw new Error('로그인 정보가 일치하지 않습니다.');
         }
 
         return user;

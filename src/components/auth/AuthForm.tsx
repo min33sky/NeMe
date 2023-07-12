@@ -102,6 +102,20 @@ export default function AuthForm() {
     [router, variant],
   );
 
+  const socialAction = useCallback(async (provider: 'google' | 'github') => {
+    try {
+      setIsLoading(true);
+      await signIn(provider, {
+        callbackUrl: '/conversations',
+      });
+    } catch (error) {
+      console.log('소셜 로그인 에러: ', error);
+      toast.error('로그인에 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return (
     <section className="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow-lg sm:rounded-lg sm:px-10">
@@ -187,11 +201,21 @@ export default function AuthForm() {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-2">
-          <Button variant={'outline'} className="flex items-center text-base">
+          <Button
+            type="button"
+            onClick={() => socialAction('google')}
+            variant={'outline'}
+            className="flex items-center text-base"
+          >
             <Icons.google className="w-5 h-5 mr-1" />
             구글로 로그인
           </Button>
-          <Button variant={'outline'} className="flex items-center text-base">
+          <Button
+            type="button"
+            onClick={() => socialAction('github')}
+            variant={'outline'}
+            className="flex items-center text-base"
+          >
             <Icons.github className="w-5 h-5 mr-1" />
             깃허브로 로그인
           </Button>
