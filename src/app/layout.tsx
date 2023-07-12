@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="antialiased scroll-smooth">
-      <body className={''}>{children}</body>
+      <body className={''}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

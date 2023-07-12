@@ -22,6 +22,9 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/button';
 import { Icons } from '../Icons';
+import axios, { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 type Variant = 'Login' | 'Register';
 
@@ -45,9 +48,59 @@ export default function AuthForm() {
     setVariant((prev) => (prev === 'Login' ? 'Register' : 'Login'));
   }, []);
 
-  const onSubmit = (data: RegisterRequest | LoginRequest) => {
-    console.log('data: ', data);
-  };
+  const onSubmit = useCallback(
+    async (data: RegisterRequest | LoginRequest) => {
+      console.log('data: ', data);
+      try {
+        setIsLoading(true);
+
+        if (variant === 'Register') {
+          await axios.post('/api/register', data);
+
+          toast.success('회원가입이 완료되었습니다.');
+
+          // 로그인 요청
+          const res = await signIn('credentials', {
+            email: data.email,
+            password: data.password,
+            redirect: false,
+          });
+
+          if (res?.error) {
+            toast.error('로그인에 실패했습니다.');
+          } else if (res?.ok) {
+            router.push('/conversations');
+          }
+        } else {
+          // 로그인 요청
+          const res = await signIn('credentials', {
+            email: data.email,
+            password: data.password,
+            redirect: false,
+          });
+
+          console.log('res: ', res);
+
+          if (res?.error) {
+            toast.error('로그인에 실패했습니다.');
+          } else if (res?.ok) {
+            router.push('/conversations');
+          }
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          return toast.error(error.response?.data.message);
+        }
+
+        console.log('error: ', error);
+
+        toast.error('알 수 없는 오류가 발생했습니다.');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router, variant],
+  );
 
   return (
     <section className="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">

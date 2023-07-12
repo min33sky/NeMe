@@ -17,8 +17,8 @@ export const RegisterValidator = z.object({
     .min(2, {
       message: '닉네임은 최소 2자 이상이어야 합니다.',
     })
-    .max(4, {
-      message: '닉네임은 최대 4자 이하여야 합니다.',
+    .max(10, {
+      message: '닉네임은 최대 10자 이하여야 합니다.',
     }),
 });
 
