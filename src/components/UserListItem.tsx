@@ -21,6 +21,8 @@ export default function UserListItem({ user }: UserListItemProps) {
         userId: user.id,
       });
 
+      console.log('성공: ', response.data);
+
       router.push(`/conversations/${response.data.id}`);
     } catch (error) {
       console.error(error);
