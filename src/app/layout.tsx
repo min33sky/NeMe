@@ -1,6 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import type { Metadata } from 'next';
+import AuthProvider from '@/components/providers/AuthProvider';
 
 export const metadata: Metadata = {
   title: 'NeMe',
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className="antialiased scroll-smooth">
       <body className={''}>
-        {children}
-        <Toaster />
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

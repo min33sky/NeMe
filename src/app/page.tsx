@@ -1,8 +1,15 @@
 import AuthForm from '@/components/auth/AuthForm';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
+import { authOptions } from './api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  // TODO: 로그인 여부에 따라서 로그인 페이지 또는 메인 페이지로 이동
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    return redirect('/users');
+  }
 
   return (
     <main className="flex flex-col justify-center min-h-full bg-slate-100 py-12 sm:px-6 lg:px-8 ">
