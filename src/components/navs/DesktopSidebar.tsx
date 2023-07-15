@@ -5,6 +5,7 @@ import React from 'react';
 import DesktopNavItem from './DesktopNavItem';
 import UserAvatar from '../UserAvatar';
 import { useSession } from 'next-auth/react';
+import { ModeToggle } from '../ModeToggle';
 
 export default function DesktopSidebar() {
   const routes = useRoutes();
@@ -27,6 +28,8 @@ export default function DesktopSidebar() {
               onClick={item.onClick}
             />
           ))}
+
+          <ModeToggle />
         </ul>
       </nav>
 

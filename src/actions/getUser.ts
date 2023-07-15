@@ -24,7 +24,7 @@ export default async function getUsers() {
       },
     });
   } catch (error) {
-    console.log('***** getUsers error', error);
+    console.log('***** getUsers error -> ', error);
 
     return [];
   }

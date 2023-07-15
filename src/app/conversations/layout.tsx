@@ -1,8 +1,9 @@
 import getConversations from '@/actions/getConverstions';
 import getUsers from '@/actions/getUser';
 import ConversationList from '@/components/ConversationList';
-import UserList from '@/components/UserList';
 import Navbar from '@/components/navs/Navbar';
+
+export const revalidate = 0;
 
 export default async function ConversationsLayout({
   children,

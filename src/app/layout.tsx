@@ -2,6 +2,7 @@ import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import type { Metadata } from 'next';
 import AuthProvider from '@/components/providers/AuthProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'NeMe',
@@ -14,11 +15,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className="antialiased scroll-smooth">
+    <html
+      lang="ko"
+      className="antialiased scroll-smooth"
+      suppressHydrationWarning
+    >
       <body className={''}>
         <AuthProvider>
-          {children}
-          <Toaster />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

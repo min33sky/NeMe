@@ -12,7 +12,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="flex flex-col justify-center min-h-full bg-slate-100 py-12 sm:px-6 lg:px-8 ">
+    <main className="flex flex-col justify-center min-h-full py-12 sm:px-6 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <Image
           src={`/images/logo.png`}
