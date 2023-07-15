@@ -13,7 +13,9 @@ export default function UserList({ users }: UserListProps) {
     >
       <div className="px-5">
         <div className="flex-col">
-          <div className="py-4 text-2xl font-bold text-neutral-800">People</div>
+          <div className="py-4 text-2xl font-bold text-neutral-800">
+            회원 목록
+          </div>
         </div>
         {users.map((user) => (
           <UserListItem key={user.id} user={user} />

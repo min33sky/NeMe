@@ -91,7 +91,7 @@ export default function ConversationBox({
           <span className="absolute inset-0" aria-hidden="true" />
           <div className="mb-1 flex items-center justify-between">
             <p className="text-md font-medium text-gray-900">
-              {data.name || otherUser.name}sidebar
+              {data.name || otherUser.name}
             </p>
             {lastMessage?.createdAt && (
               <p className="text-xs font-light text-gray-400">
