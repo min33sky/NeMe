@@ -9,23 +9,27 @@ interface SeenProps {
   };
 }
 
+/**
+ ** 가장 최신 메세지 확인 처리 API
+ */
 export async function POST(request: Request, { params }: SeenProps) {
-  /**
-   ** 메세지를 확인했다고 표시하는 API
-   */
   try {
     const session = await getServerSession(authOptions);
 
     if (!session) {
       return NextResponse.json(
-        { error: 'You must be logged in to send a message' },
-        { status: 401 },
+        {
+          message: '로그인이 필요합니다.',
+        },
+        {
+          status: 401,
+        },
       );
     }
 
     const { conversationId } = params;
 
-    //? 존재하는 채팅방 찾기
+    //? 채팅방 정보 가져오기
     const conversation = await prisma.conversation.findUnique({
       where: {
         id: conversationId,
@@ -41,18 +45,21 @@ export async function POST(request: Request, { params }: SeenProps) {
     });
 
     if (!conversation) {
-      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
+      return NextResponse.json(
+        { message: '채팅방이 존재하지 않습니다.' },
+        { status: 404 },
+      );
     }
 
-    //? 채팅방의 마지막 메세지 가져오기
-    // const lastMessage = conversation.messages[conversation.messages.length - 1];
+    // 채팅방의 마지막 메세지 가져오기
     const lastMessage = conversation.messages.at(-1);
 
+    // 비어있는 채팅방이라면 그냥 리턴
     if (!lastMessage) {
       return NextResponse.json(conversation);
     }
 
-    //? 채팅방의 마지막 메세지를 확인했다고 표시
+    //* 채팅방의 마지막 메세지를 확인했다고 표시
     const updatedMessage = await prisma.message.update({
       where: {
         id: lastMessage.id,
@@ -64,7 +71,7 @@ export async function POST(request: Request, { params }: SeenProps) {
       data: {
         seen: {
           connect: {
-            id: session.user.id,
+            id: session.user.id, //? 현재 로그인한 유저가 확인했다고 표시
           },
         },
       },
@@ -84,11 +91,13 @@ export async function POST(request: Request, { params }: SeenProps) {
     // // Update last message seen
     // await pusherServer.trigger(conversationId!, 'message:update', updatedMessage);
 
-    return NextResponse.json('Success');
+    return NextResponse.json({
+      message: '최신 메세지 확인 처리 완료.',
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: 'Something went wrong' },
+      { message: '최신 메세지 확인 처리 중 서버 에러 발생' },
       { status: 500 },
     );
   }

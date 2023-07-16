@@ -50,7 +50,6 @@ export default function AuthForm() {
 
   const onSubmit = useCallback(
     async (data: RegisterRequest | LoginRequest) => {
-      console.log('data: ', data);
       try {
         setIsLoading(true);
 
@@ -92,7 +91,7 @@ export default function AuthForm() {
           return toast.error(error.response?.data.message);
         }
 
-        console.log('error: ', error);
+        console.log('Login Error : ', error);
 
         toast.error('알 수 없는 오류가 발생했습니다.');
       } finally {
@@ -117,8 +116,8 @@ export default function AuthForm() {
   }, []);
 
   return (
-    <section className="mt-8 mx-2 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white px-4 py-8 shadow-lg sm:rounded-lg sm:px-10">
+    <section className="mt-4 mx-2 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="bg-white px-4 sm:px-10 py-6 sm:py-8 shadow-lg sm:rounded-lg ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField

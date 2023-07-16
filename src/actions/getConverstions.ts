@@ -1,5 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/db';
+import LoginRequiredException from '@/lib/exceptions/loginRequiredException';
 import { getServerSession } from 'next-auth';
 
 /**
@@ -8,10 +9,7 @@ import { getServerSession } from 'next-auth';
  */
 export default async function getConversations() {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return [];
-  }
+  if (!session) throw new LoginRequiredException();
 
   try {
     return await prisma.conversation.findMany({
@@ -34,6 +32,7 @@ export default async function getConversations() {
       },
     });
   } catch (error: any) {
-    return [];
+    console.log('***** getConversations error -> ', error);
+    throw new Error(error.message);
   }
 }

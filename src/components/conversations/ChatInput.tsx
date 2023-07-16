@@ -7,7 +7,7 @@ import axios from 'axios';
 import MessageInput from './MessageInput';
 import { ImageIcon, Send } from 'lucide-react';
 
-export default function Form() {
+export default function ChatInput() {
   const { conversationId } = useConversation();
 
   const {

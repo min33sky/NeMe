@@ -21,6 +21,6 @@ export default async function getMessages(conversationId: string) {
     });
   } catch (error: any) {
     console.error('Error in getMessages', error);
-    return [];
+    throw new Error(error.message);
   }
 }

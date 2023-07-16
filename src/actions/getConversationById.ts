@@ -1,5 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/db';
+import LoginRequiredException from '@/lib/exceptions/loginRequiredException';
 import { getServerSession } from 'next-auth';
 
 /**
@@ -8,13 +9,10 @@ import { getServerSession } from 'next-auth';
  * @param conversationId id of the conversation
  */
 export default async function getConversationById(conversationId: string) {
+  const session = await getServerSession(authOptions);
+  if (!session) throw new LoginRequiredException();
+
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      throw null;
-    }
-
     return await prisma.conversation.findUnique({
       where: {
         id: conversationId,
@@ -24,7 +22,7 @@ export default async function getConversationById(conversationId: string) {
       },
     });
   } catch (error: any) {
-    console.error('Error in getConversationById', error);
-    return null;
+    console.error('[Error in getConversationById] - ', error);
+    throw new Error(error.message);
   }
 }

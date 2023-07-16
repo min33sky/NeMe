@@ -13,7 +13,7 @@ interface HeaderProps {
   };
 }
 
-export default function Header({ conversation }: HeaderProps) {
+export default function ChatRoomHeader({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -42,7 +42,7 @@ export default function Header({ conversation }: HeaderProps) {
             href="/conversations"
             className="block cursor-pointer text-slate-500 transition hover:text-sky-600 lg:hidden"
           >
-            <MoveLeft size={32} />
+            <MoveLeft size={24} />
           </Link>
           {conversation.isGroup ? (
             // <AvatarGroup users={conversation.users} />
@@ -59,7 +59,7 @@ export default function Header({ conversation }: HeaderProps) {
           </div>
         </div>
         <MoreHorizontal
-          size={32}
+          size={24}
           onClick={() => setDrawerOpen(true)}
           className="cursor-pointer text-slate-500 transition hover:text-sky-600"
         />

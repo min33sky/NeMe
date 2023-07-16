@@ -6,16 +6,19 @@ import axios from 'axios';
 import useConversation from '@/hooks/useConversation';
 import MessageBox from './MessageBox';
 
-interface BodyProps {
-  initialMessages: FullMessageType[]; // TODO: Optional 해제하기
+interface ChatRoomBodyProps {
+  initialMessages: FullMessageType[];
 }
 
-export default function Body({ initialMessages }: BodyProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+export default function ChatRoomBody({ initialMessages }: ChatRoomBodyProps) {
   const [messages, setMessages] = useState(initialMessages);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const { conversationId } = useConversation();
 
+  /**
+   * 채팅방에 들어오면 최신 메세지를 읽음 처리
+   */
   useEffect(() => {
     axios.post(`/api/conversations/${conversationId}/seen`);
   }, [conversationId]);
@@ -60,15 +63,17 @@ export default function Body({ initialMessages }: BodyProps) {
   // }, [conversationId]);
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      {messages.map((message, i) => (
+    <section className="flex-1 overflow-y-auto">
+      {messages.map((message, idx) => (
         <MessageBox
-          isLast={i === messages.length - 1}
           key={message.id}
+          isLast={idx === messages.length - 1}
           data={message}
         />
       ))}
+
+      {/* 스크롤바 위치 조절용 */}
       <div className="pt-24" ref={bottomRef} />
-    </div>
+    </section>
   );
 }

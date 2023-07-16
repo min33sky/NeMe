@@ -1,10 +1,9 @@
 import getConversationById from '@/actions/getConversationById';
 import getMessages from '@/actions/getMessages';
 import EmptyState from '@/components/EmptyState';
-import Body from '@/components/conversations/Body';
-import Form from '@/components/conversations/Form';
-import Header from '@/components/conversations/Header';
-import React from 'react';
+import ChatRoomHeader from '@/components/conversations/ChatRoomHeader';
+import ChatInput from '@/components/conversations/ChatInput';
+import ChatRoomBody from '@/components/conversations/ChatRoomBody';
 
 interface ConversationDetailPageProps {
   params: {
@@ -33,9 +32,9 @@ export default async function ConversationDetailPage({
   return (
     <div className={`h-full lg:pl-[400px]`}>
       <div className={`flex h-full flex-col`}>
-        <Header conversation={conversation} />
-        <Body initialMessages={messages} />
-        <Form />
+        <ChatRoomHeader conversation={conversation} />
+        <ChatRoomBody initialMessages={messages} />
+        <ChatInput />
       </div>
     </div>
   );
