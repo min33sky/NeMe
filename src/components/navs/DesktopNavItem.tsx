@@ -1,3 +1,4 @@
+import useAlert from '@/hooks/useAlert';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -5,7 +6,7 @@ interface DesktopNavItemProps {
   label: string;
   icon: any;
   href: string;
-  onClick?: () => void;
+  handler?: () => void;
   active?: boolean;
 }
 
@@ -13,12 +14,18 @@ export default function DesktopNavItem({
   label,
   icon: Icon,
   href,
-  onClick,
+  handler,
   active,
 }: DesktopNavItemProps) {
+  const { onOpen } = useAlert();
+
   const handleClick = () => {
-    if (onClick) {
-      return onClick();
+    if (handler) {
+      onOpen({
+        dialogTitle: '로그아웃',
+        dialogDescription: '로그아웃 하시겠습니까?',
+        onConfirm: handler,
+      });
     }
   };
 

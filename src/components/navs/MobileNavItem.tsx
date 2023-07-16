@@ -1,21 +1,28 @@
+import useAlert from '@/hooks/useAlert';
 import Link from 'next/link';
 
 interface MobileNavItemProps {
   href: string;
   icon: any;
   active?: boolean;
-  onClick?: () => void;
+  handler?: () => void;
 }
 
 export default function MobileNavItem({
   href,
   icon: Icon,
   active,
-  onClick,
+  handler,
 }: MobileNavItemProps) {
+  const { onOpen } = useAlert();
+
   const handleClick = () => {
-    if (onClick) {
-      return onClick();
+    if (handler) {
+      onOpen({
+        dialogTitle: '로그아웃',
+        dialogDescription: '로그아웃 하시겠습니까?',
+        onConfirm: handler,
+      });
     }
   };
 

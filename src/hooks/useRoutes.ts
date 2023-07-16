@@ -29,7 +29,7 @@ export default function useRoutes() {
         label: 'Logout',
         href: '#',
         icon: LogOut,
-        onClick: () => signOut(),
+        handler: () => signOut(),
       },
     ],
     [pathname, conversationId],

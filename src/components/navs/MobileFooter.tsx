@@ -3,6 +3,7 @@
 import useRoutes from '@/hooks/useRoutes';
 import React from 'react';
 import MobileNavItem from './MobileNavItem';
+import useAlert from '@/hooks/useAlert';
 
 export default function MobileFooter() {
   const routes = useRoutes();
@@ -21,7 +22,7 @@ export default function MobileFooter() {
           href={route.href}
           active={route.active}
           icon={route.icon}
-          onClick={route.onClick}
+          handler={route.handler}
         />
       ))}
     </footer>
