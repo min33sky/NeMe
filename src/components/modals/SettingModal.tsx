@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { startTransition, useEffect, useRef, useState } from 'react';
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/useModal';
@@ -21,7 +21,8 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { DialogFooter } from '../ui/dialog';
 import Image from 'next/image';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'react-hot-toast';
 
 const SettingValidator = z.object({
   name: z.string().min(2).max(20),
@@ -34,6 +35,7 @@ export default function SettingModal() {
   const router = useRouter();
   const { isOpen, onClose } = useModal();
   const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
   type FormType = z.infer<typeof SettingValidator>;
 
@@ -43,18 +45,36 @@ export default function SettingModal() {
 
   // console.log('설정 모달: ', session?.user);
 
-  console.log(form.watch('image'));
-  console.log(form.watch('name'));
+  // console.log(form.watch('image'));
+  // console.log(form.watch('name'));
 
-  const onSubmit = async (values: FieldValues) => {
-    console.log('설정 모달: ', values);
+  const onSubmit = async (data: FormType) => {
+    console.log('업데이트 값 : ', data);
+    try {
+      setIsLoading(true);
+
+      const response = await axios.patch('/api/settings', data);
+
+      startTransition(() => {
+        router.refresh();
+        toast.success('프로필이 변경되었습니다.');
+        onClose();
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return toast.error(error.response?.data.message);
+      }
+      toast.error('알 수 없는 에러가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
-    console.log('이미지 업로드');
-    console.log(e.target.files);
+    // console.log('이미지 업로드');
+    // console.log(e.target.files);
 
     if (!e.target.files) return;
 
@@ -95,6 +115,8 @@ export default function SettingModal() {
   console.log('이미지 : ', form.watch('image'));
   console.log('이름 : ', form.watch('name'));
 
+  const fileRef = useRef<HTMLInputElement | null>(null);
+
   return (
     <Modal
       type="setting"
@@ -114,7 +136,7 @@ export default function SettingModal() {
               name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Images</FormLabel>
+                  <FormLabel>Image</FormLabel>
                   <FormControl>
                     <div className="mt-2 flex items-center gap-x-3">
                       <Image
@@ -124,18 +146,41 @@ export default function SettingModal() {
                         src={form.watch('image') || ''}
                         alt="Avatar"
                       />
-                      <label
-                        htmlFor="image"
-                        className="flex bg-red-50 p-4 cursor-pointer"
+
+                      {/* <label
+                        role="button"
+                        className="flex text-white bg-sky-500 hover:bg-sky-600 transition px-4 py-2 rounded-lg cursor-pointer"
                       >
-                        <input
-                          id="image"
+                        <Input
+                          {...field}
                           onChange={handleUpload}
                           className="hidden"
+                          value={''}
                           type="file"
                         />
                         이미지 업로드
-                      </label>
+                      </label> */}
+
+                      <Input
+                        {...field}
+                        ref={(input) => {
+                          // field.ref(input);
+                          fileRef.current = input;
+                        }}
+                        onChange={handleUpload}
+                        className="hidden"
+                        value={''}
+                        type="file"
+                      />
+
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          fileRef.current?.click();
+                        }}
+                      >
+                        이미지 업로드
+                      </Button>
                     </div>
                   </FormControl>
                   <FormMessage />
