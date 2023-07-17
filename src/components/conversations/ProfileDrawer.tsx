@@ -10,11 +10,15 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-import React, { useMemo } from 'react';
+import React, { startTransition, useCallback, useMemo, useState } from 'react';
 import { Conversation, User } from '@prisma/client';
 import useOtherUser from '@/hooks/useOtherUser';
 import { format } from 'date-fns';
 import UserAvatar from '../UserAvatar';
+import useAlert from '@/hooks/useAlert';
+import { useRouter } from 'next/navigation';
+import axios, { AxiosError } from 'axios';
+import { toast } from 'react-hot-toast';
 
 interface ProfileDrawerProps {
   data: Conversation & {
@@ -23,6 +27,8 @@ interface ProfileDrawerProps {
 }
 
 export default function ProfileDrawer({ data }: ProfileDrawerProps) {
+  const { onOpen, onClose } = useAlert();
+
   const otherUser = useOtherUser(data);
 
   const joinedDate = useMemo(
@@ -41,6 +47,39 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
     return 'Active';
   }, [data]);
 
+  const handleClick = () => {
+    onOpen({
+      dialogTitle: 'Delete Conversation',
+      dialogDescription: 'Are you sure you want to delete this conversation?',
+      onConfirm: onDelete,
+    });
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const onDelete = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await axios.delete(`/api/conversations/${data.id}`);
+
+      startTransition(() => {
+        onClose();
+        router.refresh();
+        router.push('/conversations');
+        toast.success('삭제 성공');
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return toast.error(error.response?.data.message);
+      }
+      toast.error('삭제에 실패했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [data.id, onClose, router]);
+
   return (
     <>
       <Sheet>
@@ -53,11 +92,6 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
 
         <SheetContent>
           <SheetHeader>
-            {/* <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription> */}
             <div className="flex flex-col items-center">
               <div className="mb-2">
                 {data.isGroup ? (
@@ -73,7 +107,7 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
               <div className="flex gap-10 my-8">
                 <div className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
                   <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
-                    <Trash2 size={24} />
+                    <Trash2 onClick={handleClick} size={24} />
                   </div>
                   <div className="text-sm font-light text-neutral-600"></div>{' '}
                   Delete

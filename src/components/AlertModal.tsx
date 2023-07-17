@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import useAlert from '@/hooks/useAlert';
+import { buttonVariants } from './ui/button';
 
 export default function AlertModal() {
   const { dialogTitle, dialogDescription, isOpen, onClose, onConfirm } =
@@ -27,7 +28,14 @@ export default function AlertModal() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onClose}>취소</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>확인</AlertDialogAction>
+          <AlertDialogAction
+            className={buttonVariants({
+              variant: 'destructive',
+            })}
+            onClick={onConfirm}
+          >
+            확인
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
