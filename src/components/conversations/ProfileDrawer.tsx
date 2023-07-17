@@ -4,9 +4,7 @@ import { MoreHorizontal, Trash2 } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 
@@ -19,6 +17,7 @@ import useAlert from '@/hooks/useAlert';
 import { useRouter } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
+import { Button } from '../ui/button';
 
 interface ProfileDrawerProps {
   data: Conversation & {
@@ -64,6 +63,8 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
 
       const response = await axios.delete(`/api/conversations/${data.id}`);
 
+      toast.loading('삭제 중...');
+
       startTransition(() => {
         onClose();
         router.refresh();
@@ -102,19 +103,22 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
                   </>
                 )}
               </div>
+
               <div>{title}</div>
+
               <div className="text-sm text-gray-500">{statusText}</div>
-              <div className="flex gap-10 my-8">
-                <div className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
-                  <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
-                    <Trash2 onClick={handleClick} size={24} />
-                  </div>
-                  <div className="text-sm font-light text-neutral-600"></div>{' '}
-                  Delete
-                </div>
-              </div>
+
+              <Button
+                onClick={handleClick}
+                variant={'default'}
+                className="p-4 mt-6 rounded-lg"
+              >
+                <Trash2 onClick={handleClick} className="w-4 h-4 mr-2" />
+                <p>Delete</p>
+              </Button>
             </div>
           </SheetHeader>
+
           <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
               {data.isGroup && (
