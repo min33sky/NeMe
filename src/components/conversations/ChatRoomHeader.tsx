@@ -6,6 +6,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import UserAvatar from '../UserAvatar';
 import { MoreHorizontal, MoveLeft } from 'lucide-react';
+import ProfileDrawer from './ProfileDrawer';
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -15,7 +16,7 @@ interface HeaderProps {
 
 export default function ChatRoomHeader({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  // const [drawerOpen, setDrawerOpen] = useState(false);
 
   console.log('conversation name: ', conversation);
 
@@ -58,11 +59,14 @@ export default function ChatRoomHeader({ conversation }: HeaderProps) {
             </div>
           </div>
         </div>
-        <MoreHorizontal
+
+        <ProfileDrawer data={conversation} />
+
+        {/* <MoreHorizontal
           size={24}
           onClick={() => setDrawerOpen(true)}
           className="cursor-pointer text-slate-500 transition hover:text-sky-600"
-        />
+        /> */}
       </div>
     </>
   );
