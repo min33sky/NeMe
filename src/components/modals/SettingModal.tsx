@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/useModal';
@@ -21,7 +21,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { DialogFooter } from '../ui/dialog';
 import Image from 'next/image';
-import { CldUploadButton } from 'next-cloudinary';
+import axios from 'axios';
 
 const SettingValidator = z.object({
   name: z.string().min(2).max(20),
@@ -50,10 +50,34 @@ export default function SettingModal() {
     console.log('설정 모달: ', values);
   };
 
-  const handleUpload = (result: any) => {
-    console.log('이미지 시발: ', result.info.secure_url);
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
 
-    form.setValue('image', result.info.secure_url);
+    console.log('이미지 업로드');
+    console.log(e.target.files);
+
+    if (!e.target.files) return;
+
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    formData.append(
+      'upload_preset',
+      process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
+    );
+    formData.append('timestamp', String(Date.now() / 1000));
+    formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+
+    await axios
+      .post(process.env.NEXT_PUBLIC_CLOUDINARY_API_BASE_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        console.log('이미지 업로드 성공 : ', res.data);
+        console.log('유 알 엘 : ', res.data.secure_url);
+        form.setValue('image', res.data.secure_url);
+      });
   };
 
   useEffect(() => {
@@ -97,16 +121,21 @@ export default function SettingModal() {
                         width="48"
                         height="48"
                         className="rounded-full"
-                        src={session?.user.image || ''}
+                        src={form.watch('image') || ''}
                         alt="Avatar"
                       />
-                      <CldUploadButton
-                        options={{ maxFiles: 1 }}
-                        onUpload={handleUpload}
-                        uploadPreset="tmkt1ddt"
+                      <label
+                        htmlFor="image"
+                        className="flex bg-red-50 p-4 cursor-pointer"
                       >
-                        <Button type="button">Change</Button>
-                      </CldUploadButton>
+                        <input
+                          id="image"
+                          onChange={handleUpload}
+                          className="hidden"
+                          type="file"
+                        />
+                        이미지 업로드
+                      </label>
                     </div>
                   </FormControl>
                   <FormMessage />
