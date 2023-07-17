@@ -6,10 +6,12 @@ import DesktopNavItem from './DesktopNavItem';
 import UserAvatar from '../UserAvatar';
 import { useSession } from 'next-auth/react';
 import { ModeToggle } from '../ModeToggle';
+import { useModal } from '@/hooks/useModal';
 
 export default function DesktopSidebar() {
   const routes = useRoutes();
   const { data: session } = useSession();
+  const { onOpen } = useModal();
 
   return (
     <aside
@@ -35,7 +37,7 @@ export default function DesktopSidebar() {
 
       <nav className="mt-4 flex flex-col items-center justify-between">
         <div
-          // onClick={() => setIsOpen(true)}
+          onClick={() => onOpen('setting')}
           className="cursor-pointer transition hover:opacity-75"
         >
           <UserAvatar avatarUrl={session?.user.image} />

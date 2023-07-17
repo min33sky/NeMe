@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import AuthProvider from '@/components/providers/AuthProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import AlertModal from '@/components/AlertModal';
+import SettingModal from '@/components/modals/SettingModal';
 
 export const metadata: Metadata = {
   title: 'NeMe',
@@ -26,6 +27,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
             <AlertModal />
+            <SettingModal />
             <Toaster />
           </ThemeProvider>
         </AuthProvider>
