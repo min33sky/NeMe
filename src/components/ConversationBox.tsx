@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { FullConversationType } from '@/types/message';
 import useOtherUser from '@/hooks/useOtherUser';
 import UserAvatar from './UserAvatar';
+import AvatarGroup from './AvatarGroup';
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -80,9 +81,7 @@ export default function ConversationBox({
       )}
     >
       {data.isGroup ? (
-        // TODO: 아바타 그룹 컴포넌트 구현
-        // <AvatarGroup users={data.users} />
-        <div>아바타 그룹 컴포넌트 구현</div>
+        <AvatarGroup users={data.users} />
       ) : (
         <UserAvatar avatarUrl={otherUser.image} />
       )}

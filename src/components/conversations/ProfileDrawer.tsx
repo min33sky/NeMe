@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 import { Button } from '../ui/button';
+import AvatarGroup from '../AvatarGroup';
 
 interface ProfileDrawerProps {
   data: Conversation & {
@@ -96,7 +97,7 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
             <div className="flex flex-col items-center">
               <div className="mb-2">
                 {data.isGroup ? (
-                  <>아바타 그룹이 들어올 자리</>
+                  <AvatarGroup users={data.users} />
                 ) : (
                   <>
                     <UserAvatar avatarUrl={otherUser.image} />

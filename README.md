@@ -57,3 +57,27 @@ GOOGLE_CLIENT_SECRET=
   <AsyncComponent />
 </div>
 ```
+
+2. 'React-Select' 사용 시 마우스 이벤트가 발생하지 않는 문제 해결하기
+
+```tsx
+<ReactSelect
+  isDisabled={disabled}
+  value={value}
+  onChange={onChange}
+  isMulti
+  options={options}
+  menuPortalTarget={document.body}
+  styles={{
+    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+    menuList: (base) => ({
+      ...base,
+      zIndex: 9999,
+      pointerEvents: 'all', //? 모달 안에서 React-Select 사용 시, 커서가 안잡히는 문제 해결
+    }),
+  }}
+  classNames={{
+    control: () => 'text-sm',
+  }}
+/>
+```

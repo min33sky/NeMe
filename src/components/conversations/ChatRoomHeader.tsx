@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import UserAvatar from '../UserAvatar';
 import { MoreHorizontal, MoveLeft } from 'lucide-react';
 import ProfileDrawer from './ProfileDrawer';
+import AvatarGroup from '../AvatarGroup';
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -46,8 +47,7 @@ export default function ChatRoomHeader({ conversation }: HeaderProps) {
             <MoveLeft size={24} />
           </Link>
           {conversation.isGroup ? (
-            // <AvatarGroup users={conversation.users} />
-            <>TODO: 아바타그룹</>
+            <AvatarGroup users={conversation.users} />
           ) : (
             <UserAvatar avatarUrl={otherUser.image} />
           )}
@@ -61,12 +61,6 @@ export default function ChatRoomHeader({ conversation }: HeaderProps) {
         </div>
 
         <ProfileDrawer data={conversation} />
-
-        {/* <MoreHorizontal
-          size={24}
-          onClick={() => setDrawerOpen(true)}
-          className="cursor-pointer text-slate-500 transition hover:text-sky-600"
-        /> */}
       </div>
     </>
   );
