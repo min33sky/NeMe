@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
+
     const { userId, isGroup, members, name } = body;
 
     if (isGroup && (!members || members.length < 2 || !name)) {
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
           users: {
             //? 기존 멤버 + 새로운 멤버 (현재 로그인 한 유저)를 그룹에 추가
             connect: [
-              ...members.map((member: { value: string }) => ({
+              ...members.map((member: { label: string; value: string }) => ({
                 id: member.value,
               })),
               {
