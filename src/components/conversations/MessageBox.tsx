@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import UserAvatar from '../UserAvatar';
 import { cn } from '@/lib/utils';
+import ImageModal from '../modals/ImageModal';
 
 interface MessageBoxProps {
   data: FullMessageType;
@@ -54,7 +55,12 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
             data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3',
           )}
         >
-          {/*<ImageModal src={data.image} isOpen={imageModalOpen} onClose={() => setImageModalOpen(false)} />*/}
+          <ImageModal
+            src={data.image}
+            isOpen={imageModalOpen}
+            onClose={() => setImageModalOpen(false)}
+          />
+
           {data.image ? (
             <Image
               alt="Image"
