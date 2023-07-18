@@ -112,8 +112,8 @@ export default function SettingModal() {
     }
   }, [form, session?.user]);
 
-  console.log('이미지 : ', form.watch('image'));
-  console.log('이름 : ', form.watch('name'));
+  // console.log('이미지 : ', form.watch('image'));
+  // console.log('이름 : ', form.watch('name'));
 
   const fileRef = useRef<HTMLInputElement | null>(null);
 
@@ -147,24 +147,9 @@ export default function SettingModal() {
                         alt="Avatar"
                       />
 
-                      {/* <label
-                        role="button"
-                        className="flex text-white bg-sky-500 hover:bg-sky-600 transition px-4 py-2 rounded-lg cursor-pointer"
-                      >
-                        <Input
-                          {...field}
-                          onChange={handleUpload}
-                          className="hidden"
-                          value={''}
-                          type="file"
-                        />
-                        이미지 업로드
-                      </label> */}
-
                       <Input
                         {...field}
                         ref={(input) => {
-                          // field.ref(input);
                           fileRef.current = input;
                         }}
                         onChange={handleUpload}

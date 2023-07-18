@@ -5,6 +5,7 @@ import AuthProvider from '@/components/providers/AuthProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import AlertModal from '@/components/AlertModal';
 import SettingModal from '@/components/modals/SettingModal';
+import GroupChatModal from '@/components/modals/GroupChatModal';
 
 export const metadata: Metadata = {
   title: 'NeMe',

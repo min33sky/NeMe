@@ -9,6 +9,8 @@ import type { FullConversationType } from '@/types/message';
 import { User2, UserPlus } from 'lucide-react';
 import ConversationBox from './ConversationBox';
 import { cn } from '@/lib/utils';
+import { useModal } from '@/hooks/useModal';
+import GroupChatModal from './modals/GroupChatModal';
 
 interface ConversationListProps {
   initialItems: FullConversationType[];
@@ -25,17 +27,18 @@ export default function ConversationList({
   users,
 }: ConversationListProps) {
   const [items, setItems] = useState(initialItems);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const session = useSession();
 
   const { conversationId, isOpen } = useConversation();
 
-  console.log(
-    `%c conversationId : ${conversationId || 'None'} `,
-    'color: #ff0000; font-size: 16px;',
-  );
+  const { onOpen } = useModal();
+
+  // console.log(
+  //   `%c conversationId : ${conversationId || 'None'} `,
+  //   'color: #ff0000; font-size: 16px;',
+  // );
 
   // const pusherKey = useMemo(() => {
   //   return session.data?.user?.email;
@@ -91,6 +94,8 @@ export default function ConversationList({
       {/*  isOpen={isModalOpen}*/}
       {/*  onClose={() => setIsModalOpen(false)}*/}
       {/*/>*/}
+      <GroupChatModal users={users} />
+
       <aside
         className={cn(
           `fixed bg-white inset-y-0 overflow-y-auto border-r border-gray-200 pb-20 lg:left-20 lg:block lg:w-80 lg:pb-0`,
@@ -101,7 +106,7 @@ export default function ConversationList({
           <div className="mb-4 flex justify-between pt-4">
             <div className="text-2xl font-bold text-neutral-800">채팅방</div>
             <div
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => onOpen('Group-Chat')}
               className="cursor-pointer rounded-full bg-gray-100 p-2 text-gray-600 transition hover:opacity-75"
             >
               <UserPlus size={20} />

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type ModalType = 'setting';
+export type ModalType = 'setting' | 'Group-Chat';
 
 interface ModalState {
   isOpen: boolean;
