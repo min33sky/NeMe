@@ -21,7 +21,7 @@ export default async function Home() {
           height={48}
           className={`mx-auto w-auto`}
         />
-        <h2 className="mt-3 text-center text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="mt-3 text-center text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
           서비스를 이용하려면 인증이 필요해요.
         </h2>
       </div>

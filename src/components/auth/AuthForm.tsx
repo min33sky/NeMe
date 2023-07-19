@@ -117,7 +117,7 @@ export default function AuthForm() {
 
   return (
     <section className="mt-4 mx-2 sm:mt-6 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white px-4 sm:px-10 py-6 sm:py-8 shadow-lg sm:rounded-lg ">
+      <div className="bg-white dark:bg-slate-700 px-4 sm:px-10 py-6 sm:py-8 shadow-lg sm:rounded-lg ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -180,7 +180,7 @@ export default function AuthForm() {
               type="submit"
               disabled={isLoading}
               isLoading={isLoading}
-              className="w-full bg-sky-600 hover:bg-sky-700"
+              className="w-full bg-sky-600 hover:bg-sky-700 dark:bg-popover dark:hover:bg-popover/50 dark:text-slate-200"
             >
               {variant === 'Register' ? '회원가입' : '로그인'}
             </Button>
@@ -193,7 +193,9 @@ export default function AuthForm() {
             <div className={`w-full border-t border-gray-300`}></div>
           </div>
           <div className={`relative flex justify-center text-sm`}>
-            <span className={`bg-white px-2 text-gray-500`}>
+            <span
+              className={`bg-white px-2 text-gray-500 dark:bg-slate-700 dark:text-slate-200`}
+            >
               다른 방법으로 로그인하기
             </span>
           </div>
@@ -204,7 +206,7 @@ export default function AuthForm() {
             type="button"
             onClick={() => socialAction('google')}
             variant={'outline'}
-            className="flex items-center text-base"
+            className="flex items-center text-base dark:bg-slate-300 dark:text-slate-900"
           >
             <Icons.google className="w-5 h-5 mr-1" />
             구글로 로그인
@@ -213,14 +215,14 @@ export default function AuthForm() {
             type="button"
             onClick={() => socialAction('github')}
             variant={'outline'}
-            className="flex items-center text-base"
+            className="flex items-center text-base dark:bg-slate-300 dark:text-slate-900"
           >
             <Icons.github className="w-5 h-5 mr-1" />
             깃허브로 로그인
           </Button>
         </div>
 
-        <footer className="mt-6 flex items-center justify-center gap-1 px-2 text-sm text-gray-500">
+        <footer className="mt-6 flex items-center justify-center gap-1 px-2 text-sm text-gray-500 dark:text-slate-200">
           <p>
             {variant === 'Register'
               ? '이미 계정이 있으신가요?'

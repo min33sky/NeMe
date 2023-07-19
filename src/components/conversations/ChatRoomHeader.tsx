@@ -19,19 +19,15 @@ interface HeaderProps {
 export default function ChatRoomHeader({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
 
-  console.log('conversation name: ', conversation);
-
   const { members } = useActiveList();
-
-  console.log('맴버: ', members);
 
   const isActive = members.indexOf(otherUser?.email!) !== -1;
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
-      return `${conversation.users.length} members`;
+      return `${conversation.users.length}명 참여중`;
     }
 
-    return isActive ? 'Active' : 'Offline';
+    return isActive ? '접속중' : '오프라인';
   }, [conversation, isActive]);
 
   return (

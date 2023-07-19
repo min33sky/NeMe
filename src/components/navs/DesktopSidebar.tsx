@@ -30,12 +30,12 @@ export default function DesktopSidebar() {
               handler={item.handler}
             />
           ))}
-
-          <ModeToggle />
         </ul>
       </nav>
 
-      <nav className="mt-4 flex flex-col items-center justify-between">
+      <nav className="mt-4 flex flex-col items-center justify-between space-y-4">
+        <ModeToggle />
+
         <div
           onClick={() => onOpen('setting')}
           className="cursor-pointer transition hover:opacity-75"
