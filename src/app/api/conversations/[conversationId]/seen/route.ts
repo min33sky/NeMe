@@ -1,5 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
@@ -78,18 +79,22 @@ export async function POST(request: Request, { params }: SeenProps) {
     });
 
     // Update all connections with new seen
-    // await pusherServer.trigger(currentUser.email, 'conversation:update', {
-    //   id: conversationId,
-    //   messages: [updatedMessage]
-    // });
-    //
-    // // If user has already seen the message, no need to go further
-    // if (lastMessage.seenIds.indexOf(currentUser.id) !== -1) {
-    //   return NextResponse.json(conversation);
-    // }
-    //
-    // // Update last message seen
-    // await pusherServer.trigger(conversationId!, 'message:update', updatedMessage);
+    await pusherServer.trigger(session.user.email!, 'conversation:update', {
+      id: conversationId,
+      messages: [updatedMessage],
+    });
+
+    // If user has already seen the message, no need to go further
+    if (lastMessage.seenIds.indexOf(session.user.id) !== -1) {
+      return NextResponse.json(conversation);
+    }
+
+    // Update last message seen
+    await pusherServer.trigger(
+      conversationId!,
+      'message:update',
+      updatedMessage,
+    );
 
     return NextResponse.json({
       message: '최신 메세지 확인 처리 완료.',

@@ -37,12 +37,14 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
   return (
     <div className={cn('flex gap-3 p-4', isOwn && 'justify-end')}>
       <div className={cn(isOwn && 'order-2')}>
-        <UserAvatar avatarUrl={data.sender.image} />
+        <UserAvatar avatarUrl={data.sender.image} user={data.sender} />
       </div>
 
       <div className={cn('flex flex-col gap-2', isOwn && 'items-end')}>
         <div className="flex items-center gap-1">
-          <div className="text-sm text-gray-500">{data.sender.name}</div>
+          <div className="text-sm text-gray-500 dark:text-slate-200">
+            {data.sender.name}
+          </div>
           <div className="text-xs text-gray-400">
             {format(new Date(data.createdAt), 'p')}
           </div>
@@ -51,7 +53,9 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
         <div
           className={cn(
             'text-sm w-fit overflow-hidden',
-            isOwn ? 'bg-sky-500 text-white' : 'bg-gray-100',
+            isOwn
+              ? 'bg-sky-500 text-white'
+              : 'bg-gray-100 dark:bg-slate-800 dark:text-slate-200',
             data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3',
           )}
         >

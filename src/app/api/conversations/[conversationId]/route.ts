@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
 
 export async function DELETE(
   req: Request,
@@ -56,11 +57,15 @@ export async function DELETE(
       },
     });
 
-    // existingConversation.users.forEach((user) => {
-    //   if (user.email) {
-    //     pusherServer.trigger(user.email, 'conversation:remove', existingConversation);
-    //   }
-    // });
+    existingConversation.users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(
+          user.email,
+          'conversation:remove',
+          existingConversation,
+        );
+      }
+    });
 
     return NextResponse.json(deleteConversation);
   } catch (error) {

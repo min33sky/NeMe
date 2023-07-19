@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import AlertModal from '@/components/AlertModal';
 import SettingModal from '@/components/modals/SettingModal';
 import GroupChatModal from '@/components/modals/GroupChatModal';
+import ActiveStatus from '@/components/ActiveStatus';
 
 export const metadata: Metadata = {
   title: 'NeMe',
@@ -27,6 +28,7 @@ export default function RootLayout({
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}
+            <ActiveStatus />
             <AlertModal />
             <SettingModal />
             <Toaster />

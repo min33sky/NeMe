@@ -33,7 +33,6 @@ export default function ChatInput() {
   };
 
   const handleUpload = (result: any) => {
-    // TODO: 이미지 업로드
     console.log('이미지 업로드', result.info.secure_url);
     axios.post('/api/messages', {
       image: result.info.secure_url,
@@ -42,7 +41,7 @@ export default function ChatInput() {
   };
 
   return (
-    <div className="flex w-full z-50 items-center gap-2 border-t bg-white px-4 py-4 lg:gap-4 ">
+    <div className="flex w-full z-50 items-center gap-2 border-t bg-white dark:bg-slate-900 px-4 py-4 lg:gap-4 ">
       <CldUploadButton
         options={{ maxFiles: 1 }}
         onUpload={handleUpload}
@@ -62,6 +61,7 @@ export default function ChatInput() {
           required
           placeholder="메세지를 입력하세요."
         />
+
         <button
           type="submit"
           className="cursor-pointer rounded-full bg-sky-500 p-2 transition hover:bg-sky-600"

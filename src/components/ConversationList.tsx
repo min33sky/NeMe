@@ -11,6 +11,8 @@ import ConversationBox from './ConversationBox';
 import { cn } from '@/lib/utils';
 import { useModal } from '@/hooks/useModal';
 import GroupChatModal from './modals/GroupChatModal';
+import { pusherClient } from '@/lib/pusher';
+import { find } from 'lodash';
 
 interface ConversationListProps {
   initialItems: FullConversationType[];
@@ -35,65 +37,55 @@ export default function ConversationList({
 
   const { onOpen } = useModal();
 
-  // console.log(
-  //   `%c conversationId : ${conversationId || 'None'} `,
-  //   'color: #ff0000; font-size: 16px;',
-  // );
+  const pusherKey = useMemo(() => {
+    return session.data?.user?.email;
+  }, [session.data?.user?.email]);
 
-  // const pusherKey = useMemo(() => {
-  //   return session.data?.user?.email;
-  // }, [session.data?.user?.email]);
-  //
-  // useEffect(() => {
-  //   if (!pusherKey) {
-  //     return;
-  //   }
-  //
-  //   // pusherClient.subscribe(pusherKey);
-  //
-  //   const updateHandler = (conversation: FullConversationType) => {
-  //     setItems((current) =>
-  //       current.map((currentConversation) => {
-  //         if (currentConversation.id === conversation.id) {
-  //           return {
-  //             ...currentConversation,
-  //             messages: conversation.messages,
-  //           };
-  //         }
-  //
-  //         return currentConversation;
-  //       })
-  //     );
-  //   };
-  //
-  //   const newHandler = (conversation: FullConversationType) => {
-  //     setItems((current) => {
-  //       if (find(current, { id: conversation.id })) {
-  //         return current;
-  //       }
-  //
-  //       return [conversation, ...current];
-  //     });
-  //   };
-  //
-  //   const removeHandler = (conversation: FullConversationType) => {
-  //     setItems((current) => {
-  //       return [...current.filter((convo) => convo.id !== conversation.id)];
-  //     });
-  //   };
-  //
-  //   pusherClient.bind("conversation:update", updateHandler);
-  //   pusherClient.bind("conversation:new", newHandler);
-  //   pusherClient.bind("conversation:remove", removeHandler);
-  // }, [pusherKey, router]);
+  useEffect(() => {
+    if (!pusherKey) {
+      return;
+    }
+
+    pusherClient.subscribe(pusherKey);
+
+    const updateHandler = (conversation: FullConversationType) => {
+      setItems((current) =>
+        current.map((currentConversation) => {
+          if (currentConversation.id === conversation.id) {
+            return {
+              ...currentConversation,
+              messages: conversation.messages,
+            };
+          }
+
+          return currentConversation;
+        }),
+      );
+    };
+
+    const newHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        if (find(current, { id: conversation.id })) {
+          return current;
+        }
+
+        return [conversation, ...current];
+      });
+    };
+
+    const removeHandler = (conversation: FullConversationType) => {
+      setItems((current) => {
+        return [...current.filter((convo) => convo.id !== conversation.id)];
+      });
+    };
+
+    pusherClient.bind('conversation:update', updateHandler);
+    pusherClient.bind('conversation:new', newHandler);
+    pusherClient.bind('conversation:remove', removeHandler);
+  }, [pusherKey, router]);
 
   return (
     <>
-      {/*<GroupChatModal*/}
-      {/*  users={users}*/}
-      {/*  isOpen={isModalOpen}*/}
-      {/*  onClose={() => setIsModalOpen(false)}*/}
-      {/*/>*/}
       <GroupChatModal users={users} />
 
       <aside

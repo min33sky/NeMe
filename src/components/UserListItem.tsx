@@ -38,7 +38,7 @@ export default function UserListItem({ user }: UserListItemProps) {
         className="relative flex w-full cursor-pointer items-center space-x-3 rounded-lg
                     bg-white p-3 transition hover:bg-neutral-100"
       >
-        <UserAvatar avatarUrl={user.image} />
+        <UserAvatar avatarUrl={user.image} user={user} />
         <div className="min-w-0 flex-1">
           <div className="focus:outline-none">
             <span className="absolute inset-0" aria-hidden="true" />

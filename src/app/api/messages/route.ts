@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { prisma } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
 
 export async function POST(request: Request) {
   try {
@@ -65,16 +66,19 @@ export async function POST(request: Request) {
       },
     });
 
-    // await pusherServer.trigger(conversationId, 'messages:new', newMessage);
-    //
-    // const lastMessage = updatedConversation.messages[updatedConversation.messages.length - 1];
-    //
-    // updatedConversation.users.map((user) => {
-    //   pusherServer.trigger(user.email!, 'conversation:update', {
-    //     id: conversationId,
-    //     messages: [lastMessage]
-    //   });
-    // });
+    // 채팅방 참여자들에게 새 메시지 알림
+    await pusherServer.trigger(conversationId, 'messages:new', newMessage);
+
+    const lastMessage =
+      updatedConversation.messages[updatedConversation.messages.length - 1];
+
+    // 채팅방 리스트에 새 메시지를 업데이트
+    updatedConversation.users.map((user) => {
+      pusherServer.trigger(user.email!, 'conversation:update', {
+        id: conversationId,
+        messages: [lastMessage],
+      });
+    });
 
     return NextResponse.json(newMessage);
   } catch (error) {

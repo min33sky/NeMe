@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { pusherServer } from '@/lib/pusher';
 
 export async function POST(req: Request) {
   try {
@@ -56,6 +57,13 @@ export async function POST(req: Request) {
         },
       });
 
+      // Update all connections with new conversation
+      newConversation.users.forEach((user) => {
+        if (user.email) {
+          pusherServer.trigger(user.email, 'conversation:new', newConversation);
+        }
+      });
+
       return NextResponse.json(newConversation);
     }
 
@@ -98,6 +106,13 @@ export async function POST(req: Request) {
       include: {
         users: true,
       },
+    });
+
+    // Update all connections with new conversation
+    newConversation.users.map((user) => {
+      if (user.email) {
+        pusherServer.trigger(user.email, 'conversation:new', newConversation);
+      }
     });
 
     return NextResponse.json(newConversation);

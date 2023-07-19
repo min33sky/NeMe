@@ -83,7 +83,7 @@ export default function ConversationBox({
       {data.isGroup ? (
         <AvatarGroup users={data.users} />
       ) : (
-        <UserAvatar avatarUrl={otherUser.image} />
+        <UserAvatar avatarUrl={otherUser.image} user={otherUser} />
       )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">

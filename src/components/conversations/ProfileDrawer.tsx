@@ -64,8 +64,6 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
 
       const response = await axios.delete(`/api/conversations/${data.id}`);
 
-      toast.loading('삭제 중...');
-
       startTransition(() => {
         onClose();
         router.refresh();
@@ -100,7 +98,7 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
                   <AvatarGroup users={data.users} />
                 ) : (
                   <>
-                    <UserAvatar avatarUrl={otherUser.image} />
+                    <UserAvatar avatarUrl={otherUser.image} user={otherUser} />
                   </>
                 )}
               </div>
@@ -135,9 +133,9 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
               {!data.isGroup && (
                 <div>
                   <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                    Email
+                    상대방 이메일
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 dark:text-slate-200 sm:col-span-2">
                     {otherUser.email}
                   </dd>
                 </div>
@@ -148,9 +146,9 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
                   <hr />
                   <div>
                     <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                      Joined
+                      대화 시작일
                     </dt>
-                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                    <dd className="mt-1 text-sm text-gray-900 dark:text-slate-200 sm:col-span-2">
                       <time dateTime={joinedDate}>{joinedDate}</time>
                     </dd>
                   </div>

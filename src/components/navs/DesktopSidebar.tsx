@@ -40,7 +40,7 @@ export default function DesktopSidebar() {
           onClick={() => onOpen('setting')}
           className="cursor-pointer transition hover:opacity-75"
         >
-          <UserAvatar avatarUrl={session?.user.image} />
+          <UserAvatar avatarUrl={session?.user.image} user={session?.user} />
         </div>
       </nav>
     </aside>

@@ -3,11 +3,12 @@
 import useOtherUser from '@/hooks/useOtherUser';
 import { Conversation, User } from '@prisma/client';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import UserAvatar from '../UserAvatar';
 import { MoreHorizontal, MoveLeft } from 'lucide-react';
 import ProfileDrawer from './ProfileDrawer';
 import AvatarGroup from '../AvatarGroup';
+import useActiveList from '@/hooks/useActiveList';
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -17,28 +18,25 @@ interface HeaderProps {
 
 export default function ChatRoomHeader({ conversation }: HeaderProps) {
   const otherUser = useOtherUser(conversation);
-  // const [drawerOpen, setDrawerOpen] = useState(false);
 
   console.log('conversation name: ', conversation);
 
-  // const { members } = useActiveList();
-  // const isActive = members.indexOf(otherUser?.email!) !== -1;
-  // const statusText = useMemo(() => {
-  //   if (conversation.isGroup) {
-  //     return `${conversation.users.length} members`;
-  //   }
-  //
-  //   return isActive ? 'Active' : 'Offline'
-  // }, [conversation, isActive]);
+  const { members } = useActiveList();
+
+  console.log('맴버: ', members);
+
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
+  const statusText = useMemo(() => {
+    if (conversation.isGroup) {
+      return `${conversation.users.length} members`;
+    }
+
+    return isActive ? 'Active' : 'Offline';
+  }, [conversation, isActive]);
 
   return (
     <>
-      {/*<ProfileDrawer*/}
-      {/*  data={conversation}*/}
-      {/*  isOpen={drawerOpen}*/}
-      {/*  onClose={() => setDrawerOpen(false)}*/}
-      {/*/>*/}
-      <div className="flex w-full items-center justify-between border-b-[1px] bg-white px-4 py-3 shadow-sm sm:px-4 lg:px-6">
+      <div className="flex w-full items-center justify-between border-b-[1px] bg-white dark:bg-slate-900 px-4 py-3 shadow-sm sm:px-4 lg:px-6">
         <div className="flex items-center gap-3">
           <Link
             href="/conversations"
@@ -46,16 +44,17 @@ export default function ChatRoomHeader({ conversation }: HeaderProps) {
           >
             <MoveLeft size={24} />
           </Link>
+
           {conversation.isGroup ? (
             <AvatarGroup users={conversation.users} />
           ) : (
-            <UserAvatar avatarUrl={otherUser.image} />
+            <UserAvatar avatarUrl={otherUser.image} user={otherUser} />
           )}
+
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>
             <div className="text-sm font-light text-neutral-500">
-              {/*{statusText}*/}
-              상태 메세지
+              {statusText}
             </div>
           </div>
         </div>
