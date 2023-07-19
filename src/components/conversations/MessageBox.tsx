@@ -54,7 +54,7 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
           className={cn(
             'text-sm w-fit overflow-hidden',
             isOwn
-              ? 'bg-sky-500 text-white'
+              ? 'bg-sky-500 text-white dark:bg-slate-200 dark:text-slate-800'
               : 'bg-gray-100 dark:bg-slate-800 dark:text-slate-200',
             data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3',
           )}
@@ -80,8 +80,8 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
         </div>
 
         {isLast && isOwn && seenList.length > 0 && (
-          <div className="text-xs font-light text-gray-500">
-            {`${seenList}님이 확인했습니다.`}
+          <div className="text-xs font-light text-gray-500 dark:text-slate-300">
+            {`${seenList}님이 확인`}
           </div>
         )}
       </div>

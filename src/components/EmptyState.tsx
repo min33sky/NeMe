@@ -1,11 +1,13 @@
 export default function EmptyState() {
   return (
     <div
-      className={`flex h-full items-center justify-center bg-gray-100 px-4 py-10 sm:px-6 lg:px-8`}
+      className={`flex h-full items-center justify-center bg-slate-100 dark:bg-slate-800 px-4 py-10 sm:px-6 lg:px-8`}
     >
       <div className={`flex flex-col items-center text-center`}>
-        <h3 className={`mt-2 text-2xl font-semibold text-gray-900`}>
-          Select a chat or start a new conversations
+        <h3
+          className={`mt-2 text-2xl font-semibold text-gray-900 dark:text-slate-200`}
+        >
+          채팅을 시작해보세요!
         </h3>
       </div>
     </div>

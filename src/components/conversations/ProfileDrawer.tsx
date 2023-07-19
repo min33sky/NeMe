@@ -49,8 +49,8 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
 
   const handleClick = () => {
     onOpen({
-      dialogTitle: 'Delete Conversation',
-      dialogDescription: 'Are you sure you want to delete this conversation?',
+      dialogTitle: '채팅방 나가기',
+      dialogDescription: '정말로 채팅방에서 나가시겠습니까?',
       onConfirm: onDelete,
     });
   };
@@ -68,13 +68,13 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
         onClose();
         router.refresh();
         router.push('/conversations');
-        toast.success('삭제 성공');
+        toast.success('대화방에서 나갔습니다.');
       });
     } catch (error) {
       if (error instanceof AxiosError) {
         return toast.error(error.response?.data.message);
       }
-      toast.error('삭제에 실패했습니다.');
+      toast.error('알 수 없는 에러가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -113,19 +113,19 @@ export default function ProfileDrawer({ data }: ProfileDrawerProps) {
                 className="p-4 mt-6 rounded-lg"
               >
                 <Trash2 onClick={handleClick} className="w-4 h-4 mr-2" />
-                <p>Delete</p>
+                <span>나가기</span>
               </Button>
             </div>
           </SheetHeader>
 
-          <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
+          <div className="w-full mt-6 pb-5 pt-5 sm:px-0 sm:pt-0">
             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
               {data.isGroup && (
                 <div>
-                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                    Emails
+                  <dt className="text-base font-medium text-gray-500 dark:text-slate-100 sm:w-40 sm:flex-shrink-0">
+                    채팅방 맴버
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                  <dd className="mt-1 text-sm text-gray-900 dark:text-slate-200 sm:col-span-2">
                     {data.users.map((user) => user.email).join(', ')}
                   </dd>
                 </div>

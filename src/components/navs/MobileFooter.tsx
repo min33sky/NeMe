@@ -15,7 +15,7 @@ export default function MobileFooter() {
   // }
 
   return (
-    <footer className="fixed bottom-0 z-40 flex w-full items-center justify-between border-t-[1px] bg-white lg:hidden">
+    <footer className="fixed bottom-0 z-40 flex w-full items-center justify-between border-t-[1px] bg-white dark:bg-slate-800 lg:hidden">
       {routes.map((route) => (
         <MobileNavItem
           key={route.href}

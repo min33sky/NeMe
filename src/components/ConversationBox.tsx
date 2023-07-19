@@ -9,6 +9,7 @@ import { FullConversationType } from '@/types/message';
 import useOtherUser from '@/hooks/useOtherUser';
 import UserAvatar from './UserAvatar';
 import AvatarGroup from './AvatarGroup';
+import { cn } from '@/lib/utils';
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -76,8 +77,8 @@ export default function ConversationBox({
     <div
       onClick={handleClick}
       className={clsx(
-        `relative flex w-full cursor-pointer items-center space-x-3 rounded-lg p-3 transition hover:bg-neutral-100`,
-        selected ? 'bg-neutral-100' : 'bg-white',
+        `relative flex w-full cursor-pointer items-center space-x-3 rounded-lg p-3 transition hover:bg-slate-200 dark:hover:bg-slate-800`,
+        selected ? 'bg-slate-200 dark:bg-slate-800' : 'bg-transparent',
       )}
     >
       {data.isGroup ? (
@@ -88,20 +89,31 @@ export default function ConversationBox({
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <span className="absolute inset-0" aria-hidden="true" />
+
           <div className="mb-1 flex items-center justify-between">
-            <p className="text-md font-medium text-gray-900">
+            <p
+              className={cn(
+                'text-md font-medium text-gray-900 dark:text-slate-200',
+                selected
+                  ? 'text-slate-800 dark:text-slate-200'
+                  : 'text-gray-900 dark:text-slate-200',
+              )}
+            >
               {data.name || otherUser.name}
             </p>
             {lastMessage?.createdAt && (
-              <p className="text-xs font-light text-gray-400">
+              <p className="text-xs font-light text-gray-400 dark:text-slate-200">
                 {format(new Date(lastMessage.createdAt), 'p')}
               </p>
             )}
           </div>
+
           <p
             className={clsx(
               `truncate text-sm`,
-              hasSeen ? 'text-gray-500' : 'font-medium text-black',
+              hasSeen
+                ? 'text-gray-500 dark:text-slate-200'
+                : 'font-medium text-black dark:text-slate-400',
             )}
           >
             {lastMessageText}

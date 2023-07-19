@@ -90,18 +90,23 @@ export default function ConversationList({
 
       <aside
         className={cn(
-          `fixed bg-white inset-y-0 overflow-y-auto border-r border-gray-200 pb-20 lg:left-20 lg:block lg:w-80 lg:pb-0`,
+          `fixed bg-white dark:bg-slate-700 inset-y-0 overflow-y-auto border-r border-gray-200
+                      dark:border-gray-800 pb-20 lg:left-20 lg:block lg:w-80 lg:pb-0`,
           isOpen ? 'hidden' : 'left-0 block w-full',
         )}
       >
         <div className="px-5">
-          <div className="mb-4 flex justify-between pt-4">
-            <div className="text-2xl font-bold text-neutral-800">채팅방</div>
+          <div className="mb-4 flex items-center justify-between pt-4">
+            <p className="text-2xl font-bold text-neutral-800 dark:text-slate-200">
+              채팅방
+            </p>
+
             <div
               onClick={() => onOpen('Group-Chat')}
-              className="cursor-pointer rounded-full bg-gray-100 p-2 text-gray-600 transition hover:opacity-75"
+              className="cursor-pointer rounded-full bg-gray-100 dark:bg-transparent dark:text-slate-200 dark:hover:bg-slate-800
+                          p-2 text-gray-600 transition hover:opacity-75"
             >
-              <UserPlus size={20} />
+              <UserPlus size={24} />
             </div>
           </div>
 
