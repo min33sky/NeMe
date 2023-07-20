@@ -90,8 +90,7 @@ export default function ConversationList({
 
       <aside
         className={cn(
-          `fixed bg-white dark:bg-slate-700 inset-y-0 overflow-y-auto border-r border-gray-200
-                      dark:border-gray-800 pb-20 lg:left-20 lg:block lg:w-80 lg:pb-0`,
+          `col-span-4 bg-white dark:bg-slate-700 overflow-y-auto pb-20 border-r border-slate-200 dark:border-slate-800 lg:pl-20 lg:block  `,
           isOpen ? 'hidden' : 'left-0 block w-full',
         )}
       >

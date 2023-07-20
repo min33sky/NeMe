@@ -27,10 +27,8 @@ export default async function ConversationDetailPage({
     );
   }
 
-  // TODO: paddingLeft 대신에 Layout을 Grid로 바꾸는게 어떨까?
-
   return (
-    <div className={`h-full lg:pl-[400px]`}>
+    <div className={`h-full w-full col-span-8`}>
       <div className={`flex h-full flex-col`}>
         <ChatRoomHeader conversation={conversation} />
         <ChatRoomBody initialMessages={messages} />

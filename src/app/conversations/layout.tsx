@@ -16,12 +16,14 @@ export default async function ConversationsLayout({
   return (
     <>
       <Navbar />
-      <ConversationList
-        users={users}
-        title="Messages"
-        initialItems={conversations}
-      />
-      {children}
+      <div className="grid grid-cols-1 lg:grid-cols-12 h-full">
+        <ConversationList
+          users={users}
+          title="Messages"
+          initialItems={conversations}
+        />
+        {children}
+      </div>
     </>
   );
 }

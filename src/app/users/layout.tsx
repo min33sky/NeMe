@@ -14,8 +14,10 @@ export default async function UsersLayout({
   return (
     <>
       <Navbar />
-      <UserList users={users} />
-      {children}
+      <div className="grid grid-cols-1 lg:grid-cols-12 h-full">
+        <UserList users={users} />
+        {children}
+      </div>
     </>
   );
 }
