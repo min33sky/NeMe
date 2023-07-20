@@ -5,7 +5,6 @@ import AuthProvider from '@/components/providers/AuthProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import AlertModal from '@/components/AlertModal';
 import SettingModal from '@/components/modals/SettingModal';
-import GroupChatModal from '@/components/modals/GroupChatModal';
 import ActiveStatus from '@/components/ActiveStatus';
 
 export const metadata: Metadata = {
@@ -24,7 +23,7 @@ export default function RootLayout({
       className="antialiased scroll-smooth"
       suppressHydrationWarning
     >
-      <body className={''}>
+      <body>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {children}

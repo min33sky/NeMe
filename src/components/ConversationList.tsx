@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import useConversation from '@/hooks/useConversation';
 import { User } from '@prisma/client';
 import type { FullConversationType } from '@/types/message';
-import { User2, UserPlus } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
 import ConversationBox from './ConversationBox';
 import { cn } from '@/lib/utils';
 import { useModal } from '@/hooks/useModal';
